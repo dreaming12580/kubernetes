@@ -315,6 +315,9 @@ func (c *webhookConverter) Convert(in runtime.Object, toGV schema.GroupVersion) 
 				// this should not happened
 				return nil, fmt.Errorf("conversion webhook for %v returned invalid converted object at index %v: invalid type, expected=Unstructured, got=%T", in.GetObjectKind().GroupVersionKind(), convertedIndex, converted)
 			}
+
+			fmt.Errorf("====1 original:%T, original:%#v, unstructConverted:%T, unstructConverted:%#v", original, original, unstructConverted, unstructConverted)
+
 			if err := validateConvertedObject(original, unstructConverted); err != nil {
 				return nil, fmt.Errorf("conversion webhook for %v returned invalid converted object at index %v: %v", in.GetObjectKind().GroupVersionKind(), convertedIndex, err)
 			}
@@ -351,6 +354,9 @@ func (c *webhookConverter) Convert(in runtime.Object, toGV schema.GroupVersion) 
 		// this should not happened
 		return nil, fmt.Errorf("conversion webhook for %v failed unexpected input type %T", in.GetObjectKind().GroupVersionKind(), in)
 	}
+
+	fmt.Errorf("====2 unstructIn:%T, unstructIn:%#v, unstructConverted:%T, unstructConverted:%#v", unstructIn, unstructIn, unstructConverted, unstructConverted)
+
 	if err := validateConvertedObject(unstructIn, unstructConverted); err != nil {
 		return nil, fmt.Errorf("conversion webhook for %v returned invalid object: %v", in.GetObjectKind().GroupVersionKind(), err)
 	}
